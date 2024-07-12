@@ -20,4 +20,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-port default App
