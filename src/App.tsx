@@ -13,16 +13,17 @@ interface HistoryItem {
 }
 
 const App: React.FC = () => {
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState('');
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
-  const [history, setHistory] = useState<HistoryItem[]>(algorithmHistoryJson);
   const [zoom, setZoom] = useState(1);
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState('');
+  const [history, setHistory] = useState<HistoryItem[]>(algorithmHistoryJson);
+  const [filteredHistory, setFilteredHistory] = useState(history);
 
   useEffect(() => {
     const handleZoom = () => {
       const zoomLevel = window.devicePixelRatio;
-      setZoom(1 / zoomLevel);
+      setZoom(zoomLevel);
     };
 
     window.addEventListener('resize', handleZoom);
@@ -51,7 +52,7 @@ const App: React.FC = () => {
     setSelectedAlgorithm(algorithm);
   };
 
-  const setupResult = (result: string) => {
+  const saveInputResult = (result: string) => {
     const newHistory: HistoryItem = {
       id: history.length + 1,
       prompt: input,
@@ -61,31 +62,35 @@ const App: React.FC = () => {
     setHistory([...history, newHistory]);
   };
 
-  const filteredHistory = history.filter(item => item.algorithm === selectedAlgorithm);
+  useEffect(() => {
+    setFilteredHistory(history.filter(item => item.algorithm === selectedAlgorithm));
+  }, [history, selectedAlgorithm]);
 
   return (
-    <div 
-      className="container mx-auto flex flex-col items-center min-h-screen fixed top-0 left-0 right-0 bottom-0" 
-      style={{ transform: `scale(${zoom})`, transformOrigin: 'center' }}
-    >
+    <div className="container mx-auto flex flex-col items-center min-h-screen fixed top-0 left-0 right-0 bottom-0"
+      style={{ transform: `scale(${zoom})`, transformOrigin: 'center' }}>
       <header className="text-center w-full">
         <h1 className="text-4xl font-bold">Cipher Museum</h1>
       </header>
-      <div className="flex w-full justify-center gap-4 my-4">
+      <div className="flex w-full justify-center gap-4 my-8">
         <div className="flex flex-col p-6 shadow-md rounded-lg max-w-md">
-          <AlgorithmSelection selectedAlgorithm={selectedAlgorithm} setSelectedAlgorithm={handleAlgorithmChange} />
+          <AlgorithmSelection
+            selectedAlgorithm={selectedAlgorithm}
+            setSelectedAlgorithm={handleAlgorithmChange}
+          />
           <InputOutputDisplay input={input} output={output} handleInputChange={handleInputChange} />
-          <DonationButton />
+          <button onClick={() => saveInputResult(output)}>Save</button>
         </div>
         <div className="flex flex-col p-6 shadow-md rounded-lg max-w-md" style={{ minWidth: '300px' }}>
           <HistoryDropdown
             items={selectedAlgorithm ? filteredHistory : history}
-            onDelete={(id) => console.log('Delete', id)}
-            onSelect={(id) => console.log('Select', id)}
+            onSelect={id => console.log('Select', id)}
+            onDelete={id => console.log('Delete', id)}
           />
         </div>
       </div>
       <footer className="text-center w-full">
+        <DonationButton />
         <p className="text-sm">&copy; 2024 Encryption App</p>
       </footer>
     </div>
@@ -93,5 +98,4 @@ const App: React.FC = () => {
 };
 
 export default App;
-
 
