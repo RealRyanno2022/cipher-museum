@@ -1,0 +1,35 @@
+[
+  {
+    "algorithm": "Vigenère Cipher",
+    "history": "The Vigenère cipher is a method of encrypting alphabetic text by using a simple form of polyalphabetic substitution. The cipher is easy to understand and implement, but it resisted all attempts to break it until the 19th century. Blaise de Vigenère described this cipher in 1586. The Vigenère cipher was considered secure for centuries and was a significant step in cryptographic history. It uses a keyword, where each letter in the keyword shifts the corresponding letter in the plaintext by the number of positions indicated by the letter in the keyword. Despite its historical importance, the Vigenère cipher is no longer considered secure by modern standards."
+  },
+  {
+    "algorithm": "Caesar Cipher",
+    "history": "The Caesar cipher is one of the simplest and most widely known encryption techniques. Named after Julius Caesar, who used it in his private correspondence, it shifts each letter in the plaintext by a fixed number of positions down the alphabet. For example, with a shift of 3, 'A' would be encrypted as 'D'. The Caesar cipher is a type of substitution cipher and is easily broken with modern techniques. Despite its simplicity, it laid the groundwork for more complex encryption methods and is often used in teaching the basics of cryptography."
+  },
+  {
+    "algorithm": "Enigma Cipher",
+    "history": "The Enigma machine was a cipher device used by Nazi Germany during World War II. It was invented by the German engineer Arthur Scherbius at the end of World War I. The Enigma machine was capable of very complex encryptions and was used extensively to secure military communication. The breaking of Enigma by Allied cryptanalysts, particularly at Bletchley Park, is considered one of the most significant intelligence coups of the war. The machine used a series of rotating wheels to scramble plaintext messages into ciphertext, and its breaking marked a significant milestone in the field of cryptography."
+  },
+  {
+    "algorithm": "Louis XIV's Great Cipher",
+    "history": "Louis XIV's Great Cipher was developed by Antoine and Bonaventure Rossignol in the 17th century. It was used by the French court to encrypt highly sensitive communications. This cipher was so complex that it remained undeciphered for 200 years. It was finally broken in the 19th century by the French military cryptanalyst Étienne Bazeries. The Great Cipher used a homophonic substitution system, where single letters in the plaintext were replaced with numbers, but it also included traps for the would-be cryptanalyst. The Great Cipher's resilience highlighted the importance of complexity in encryption."
+  },
+  {
+    "algorithm": "AES",
+    "history": "The Advanced Encryption Standard (AES) was established by the U.S. National Institute of Standards and Technology (NIST) in 2001. It succeeded the Data Encryption Standard (DES) and is widely used across the globe to secure data. AES is based on the Rijndael cipher developed by two Belgian cryptographers, Vincent Rijmen and Joan Daemen. AES supports key sizes of 128, 192, and 256 bits and is known for its speed and security. It is used in various applications, including securing internet communications and encrypting sensitive data."
+  },
+  {
+    "algorithm": "ECC",
+    "history": "Elliptic Curve Cryptography (ECC) is a public-key encryption technique based on elliptic curve theory. It was proposed independently by Victor S. Miller and Neal Koblitz in the mid-1980s. ECC offers the same level of security as traditional methods, such as RSA, but with much smaller key sizes, making it more efficient. ECC is widely used in modern cryptography, particularly in mobile applications and devices with constrained resources. It is also used in securing internet communications through protocols like TLS/SSL."
+  },
+  {
+    "algorithm": "RSA",
+    "history": "RSA, named after its inventors Ron Rivest, Adi Shamir, and Leonard Adleman, is a public-key encryption system that was first publicly described in 1977. RSA is widely used for securing sensitive data, especially in digital signatures and secure key exchange. The security of RSA is based on the practical difficulty of factoring the product of two large prime numbers. RSA is a fundamental component of modern internet security protocols, including HTTPS, and remains a crucial technology in cryptography."
+  },
+  {
+    "algorithm": "Evervault PCI-DSS",
+    "history": "Evervault provides encryption services designed to help companies achieve PCI-DSS compliance, which is a set of security standards designed to ensure that all companies that accept, process, store or transmit credit card information maintain a secure environment. Evervault's encryption services are built to make data protection and compliance easier for developers. By using hardware security modules (HSMs) and a range of cryptographic techniques, Evervault ensures that sensitive data is securely encrypted and easily manageable, aligning with modern security requirements and compliance standards."
+  }
+]
+

@@ -1,20 +1,35 @@
 import React from 'react';
 
-const AlgorithmSelection: React.FC = () => {
+const AlgorithmSelection: React.FC<{ selectedAlgorithm: string; setSelectedAlgorithm: (algorithm: string) => void }> = ({ selectedAlgorithm, setSelectedAlgorithm }) => {
+  const handleSelectionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedAlgorithm(e.target.value);
+  };
+
   return (
     <div className="my-4">
-      <label htmlFor="algorithm" className="block text-sm font-medium text-gray-700">
+      <label
+        htmlFor="algorithm"
+        className={`block text-green-500 text-sm font-bold mb-2`}
+        style={{ fontFamily: 'Orbitron, monospace' }}
+      >
         Choose an Algorithm
       </label>
-      <select id="algorithm" name="algorithm" className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-        <option>Vigenère Cipher</option>
-        <option>Caesar Cipher</option>
-        <option>Enigma Cipher</option>
-        <option>Louis XIV's Great Cipher</option>
-        <option>AES</option>
-        <option>RSA</option>
-        <option>ECC</option>
-        <option>Evervault PCI-DSS</option>
+      <select
+        id="algorithm"
+        name="algorithm"
+        value={selectedAlgorithm}
+        onChange={handleSelectionChange}
+        className={`shadow appearance-none border rounded w-full py-2 px-3 text-green-500 font-bold focus:outline-none focus:shadow-outline`}
+        style={{ fontFamily: 'monospace' }}
+      >
+        <option value="Vigenère Cipher">Vigenère Cipher</option>
+        <option value="Caesar Cipher">Caesar Cipher</option>
+        <option value="Enigma Cipher">Enigma Cipher</option>
+        <option value="Louis XIV's Great Cipher">Louis XIV's Great Cipher</option>
+        <option value="AES">AES</option>
+        <option value="RSA">RSA</option>
+        <option value="ECC">ECC</option>
+        <option value="Evervault PCI-DSS">Evervault PCI-DSS</option>
       </select>
     </div>
   );
