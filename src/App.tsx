@@ -51,31 +51,31 @@ const App: React.FC = () => {
 
   const filteredHistory = algorithmHistory.filter(item => item.algorithm === selectedAlgorithm);
 
-  return (
-    <div className="container mx-auto p-4 flex flex-col lg:grid lg:grid-cols-2 gap-8 min-h-screen">
-      <header className="text-center col-span-2">
-        <h1 className="text-4xl font-bold">Cipher Museum</h1>
-      </header>
-      <main className="flex flex-col lg:justify-center lg:items-start">
-        <div className="mb-4 p-6 shadow-md rounded-lg w-full max-w-lg">
-          <AlgorithmSelection selectedAlgorithm={selectedAlgorithm} setSelectedAlgorithm={handleAlgorithmChange} />
-          <InputOutputDisplay input={input} output={output} handleInputChange={handleInputChange} />
-          <DonationButton />
-        </div>
-      </main>
-      <aside className="flex flex-col lg:justify-center lg:items-end">
-        <HistoryDropdown 
-          title={selectedAlgorithm || 'History'}
-          history={filteredHistory} 
-          onDelete={(id) => console.log('Delete', id)} 
+ return (
+  <div className="container mx-auto flex flex-col items-center min-h-screen">
+    <header className="text-center col-span-2">
+      <h1 className="text-4xl font-bold">Cipher Museum</h1>
+    </header>
+    <div className="flex w-full">
+      <div className="flex flex-col p-6 shadow-md rounded-lg max-w-md mx-auto">
+        <AlgorithmSelection selectedAlgorithm={selectedAlgorithm} setSelectedAlgorithm={handleAlgorithmChange} />
+        <InputOutputDisplay input={input} output={output} handleInputChange={handleInputChange} />
+        <DonationButton />
+      </div>
+      <div className="flex flex-col p-6 shadow-md rounded-lg max-w-md ml-4">
+        <HistoryDropdown
+          items={selectedAlgorithm ? filteredHistory : history}
+          onDelete={(id) => console.log('Delete', id)}
           onSelect={(id) => console.log('Select', id)}
         />
-      </aside>
-      <footer className="text-center col-span-2">
-        <p className="text-sm">&copy; 2024 Encryption App</p>
-      </footer>
+      </div>
     </div>
-  );
+    <footer className="text-center col-span-2">
+      <p className="text-sm">&copy; 2024 Encryption App</p>
+    </footer>
+  </div>
+);
+
 };
 
 export default App;
