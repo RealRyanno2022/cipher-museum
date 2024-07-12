@@ -1,6 +1,11 @@
 import React from 'react';
 
-const AlgorithmSelection: React.FC<{ selectedAlgorithm: string; setSelectedAlgorithm: (algorithm: string) => void }> = ({ selectedAlgorithm, setSelectedAlgorithm }) => {
+interface AlgorithmSelectionProps {
+  selectedAlgorithm: string;
+  setSelectedAlgorithm: (algorithm: string) => void;
+}
+
+const AlgorithmSelection: React.FC<AlgorithmSelectionProps> = ({ selectedAlgorithm, setSelectedAlgorithm }) => {
   const handleSelectionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedAlgorithm(e.target.value);
   };
@@ -9,7 +14,7 @@ const AlgorithmSelection: React.FC<{ selectedAlgorithm: string; setSelectedAlgor
     <div className="my-4">
       <label
         htmlFor="algorithm"
-        className={`block text-green-500 text-sm font-bold mb-2`}
+        className="block text-green-500 text-sm font-bold mb-2"
         style={{ fontFamily: 'Orbitron, monospace' }}
       >
         Choose an Algorithm
@@ -19,7 +24,7 @@ const AlgorithmSelection: React.FC<{ selectedAlgorithm: string; setSelectedAlgor
         name="algorithm"
         value={selectedAlgorithm}
         onChange={handleSelectionChange}
-        className={`shadow appearance-none border rounded w-full py-2 px-3 text-green-500 font-bold focus:outline-none focus:shadow-outline`}
+        className="shadow appearance-none border rounded w-full py-2 px-3 text-green-500 font-bold focus:outline-none focus:shadow-outline"
         style={{ fontFamily: 'monospace' }}
       >
         <option value="Vigenère Cipher">Vigenère Cipher</option>

@@ -1,15 +1,20 @@
-// src/components/DonationButton.tsx
 import React from 'react';
+import file from '../../public/file.png'; // Adjust the path based on your project structure
 
 const DonationButton: React.FC = () => {
-  const paymentLink = import.meta.env.VITE_STRIPE_PAYMENT_LINK;
-
   return (
-    <div className="my-4 text-center">
-      <a href={paymentLink} className="stripe-button">
-        Donate with Stripe
-      </a>
-    </div>
+    <button
+      style={{
+        fontFamily: 'Orbitron, monospace',
+        backgroundSize: 'contain',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        width: '200px',
+        height: '100px',
+      }}
+    >
+      Donate with Stripe!
+    </button>
   );
 };
 

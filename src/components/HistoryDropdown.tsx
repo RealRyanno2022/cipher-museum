@@ -1,34 +1,41 @@
 import React from 'react';
 
 interface HistoryDropdownProps {
-  history: { id: number, prompt: string, result: string }[];
+  title: string;
+  history: { id: number; prompt: string; result: string }[];
   onDelete: (id: number) => void;
   onSelect: (id: number) => void;
 }
 
-const HistoryDropdown: React.FC<HistoryDropdownProps> = ({ history, onDelete, onSelect }) => {
+const HistoryDropdown: React.FC<HistoryDropdownProps> = ({ title, history = [], onDelete, onSelect }) => {
+  const loremIpsum = `
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
+    dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non 
+    proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing 
+    elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
+    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum 
+    dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim 
+    id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore 
+    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis 
+    aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat 
+    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  `;
+
   return (
-    <div className="my-4">
-      <label htmlFor="history" className="block text-sm font-medium text-gray-700">History</label>
-      <select
-        id="history"
-        name="history"
-        className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-        onChange={(e) => onSelect(parseInt(e.target.value))}
+    <div className="my-4 lg:ml-8">
+      <h2
+        className="text-green-500 text-2xl font-bold mb-4"
+        style={{ fontFamily: 'Orbitron, monospace' }}
       >
-        <option value="">Select a History Entry</option>
-        {history.map(item => (
-          <option key={item.id} value={item.id}>
-            {item.prompt} - {item.result}
-          </option>
-        ))}
-      </select>
-      <button
-        onClick={() => onDelete(history.length > 0 ? history[history.length - 1].id : 0)}
-        className="mt-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+        {title}
+      </h2>
+      <p
+        className="mt-1 block w-full py-2 px-3 border border-green-500 bg-black rounded-md shadow-sm text-green-500 font-bold mb-2 leading-loose"
+        style={{ fontFamily: 'Orbitron, monospace', height: '400px', overflow: 'auto' }}
       >
-        Delete Last Entry
-      </button>
+        {loremIpsum}
+      </p>
     </div>
   );
 };
