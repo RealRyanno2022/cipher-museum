@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AlgorithmSelection from './components/AlgorithmSelection';
 import InputOutputDisplay from './components/InputOutputDisplay';
 import DonationButton from './components/DonationButton';
@@ -16,20 +16,32 @@ const App: React.FC = () => {
   const [selectedAlgorithm, setSelectedAlgorithm] = useState('');
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
-  const [algorithmHistory, setAlgorithmHistory] = useState<HistoryItem[]>(algorithmHistoryJson);
+  const [history, setHistory] = useState<HistoryItem[]>(algorithmHistoryJson);
+  const [zoom, setZoom] = useState(1);
+
+  useEffect(() => {
+    const handleZoom = () => {
+      const zoomLevel = window.devicePixelRatio;
+      setZoom(1 / zoomLevel);
+    };
+
+    window.addEventListener('resize', handleZoom);
+    handleZoom();
+
+    return () => {
+      window.removeEventListener('resize', handleZoom);
+    };
+  }, []);
 
   const handleInputChange = (input: string) => {
     setInput(input);
     switch (selectedAlgorithm) {
       case 'Caesar Cipher':
-        // Add Caesar Cipher logic
         setOutput(`Caesar: ${input}`); // Replace with actual encryption logic
         break;
       case 'AES':
-        // Add AES logic
         setOutput(`AES: ${input}`); // Replace with actual encryption logic
         break;
-      // Add cases for other algorithms
       default:
         setOutput(input);
     }
@@ -41,42 +53,45 @@ const App: React.FC = () => {
 
   const setupResult = (result: string) => {
     const newHistory: HistoryItem = {
-      id: algorithmHistory.length + 1,
+      id: history.length + 1,
       prompt: input,
       result: result,
       algorithm: selectedAlgorithm,
     };
-    setAlgorithmHistory([...algorithmHistory, newHistory]);
+    setHistory([...history, newHistory]);
   };
 
-  const filteredHistory = algorithmHistory.filter(item => item.algorithm === selectedAlgorithm);
+  const filteredHistory = history.filter(item => item.algorithm === selectedAlgorithm);
 
- return (
-  <div className="container mx-auto flex flex-col items-center min-h-screen">
-    <header className="text-center col-span-2">
-      <h1 className="text-4xl font-bold">Cipher Museum</h1>
-    </header>
-    <div className="flex w-full">
-      <div className="flex flex-col p-6 shadow-md rounded-lg max-w-md mx-auto">
-        <AlgorithmSelection selectedAlgorithm={selectedAlgorithm} setSelectedAlgorithm={handleAlgorithmChange} />
-        <InputOutputDisplay input={input} output={output} handleInputChange={handleInputChange} />
-        <DonationButton />
+  return (
+    <div 
+      className="container mx-auto flex flex-col items-center min-h-screen fixed top-0 left-0 right-0 bottom-0" 
+      style={{ transform: `scale(${zoom})`, transformOrigin: 'center' }}
+    >
+      <header className="text-center w-full">
+        <h1 className="text-4xl font-bold">Cipher Museum</h1>
+      </header>
+      <div className="flex w-full justify-center gap-4 my-4">
+        <div className="flex flex-col p-6 shadow-md rounded-lg max-w-md">
+          <AlgorithmSelection selectedAlgorithm={selectedAlgorithm} setSelectedAlgorithm={handleAlgorithmChange} />
+          <InputOutputDisplay input={input} output={output} handleInputChange={handleInputChange} />
+          <DonationButton />
+        </div>
+        <div className="flex flex-col p-6 shadow-md rounded-lg max-w-md" style={{ minWidth: '300px' }}>
+          <HistoryDropdown
+            items={selectedAlgorithm ? filteredHistory : history}
+            onDelete={(id) => console.log('Delete', id)}
+            onSelect={(id) => console.log('Select', id)}
+          />
+        </div>
       </div>
-      <div className="flex flex-col p-6 shadow-md rounded-lg max-w-md ml-4">
-        <HistoryDropdown
-          items={selectedAlgorithm ? filteredHistory : history}
-          onDelete={(id) => console.log('Delete', id)}
-          onSelect={(id) => console.log('Select', id)}
-        />
-      </div>
+      <footer className="text-center w-full">
+        <p className="text-sm">&copy; 2024 Encryption App</p>
+      </footer>
     </div>
-    <footer className="text-center col-span-2">
-      <p className="text-sm">&copy; 2024 Encryption App</p>
-    </footer>
-  </div>
-);
-
+  );
 };
 
 export default App;
+
 
