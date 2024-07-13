@@ -15,7 +15,7 @@ interface HistoryItem {
 const App: React.FC = () => {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
-  const [zoom, setZoom] = useState(1);
+  const [zoomLevel, setZoom] = useState(1);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState('');
   const [history, setHistory] = useState<HistoryItem[]>(algorithmHistoryJson);
   const [filteredHistory, setFilteredHistory] = useState(history);
@@ -67,35 +67,24 @@ const App: React.FC = () => {
   }, [history, selectedAlgorithm]);
 
   return (
-    <div className="container mx-auto flex flex-col items-center min-h-screen fixed top-0 left-0 right-0 bottom-0"
-      style={{ transform: `scale(${zoom})`, transformOrigin: 'center' }}>
+    <div className="container mx-auto flex flex-col items-center min-h-screen fixed top-0 left-0 right-0 bottom-0" style={{ transform: `scale(${zoomLevel})`, transformOrigin: 'center' }}>
       <header className="text-center w-full">
         <h1 className="text-4xl font-bold">Cipher Museum</h1>
       </header>
       <div className="flex w-full justify-center gap-4 my-8">
-        <div className="flex flex-col p-6 shadow-md rounded-lg max-w-md">
-          <AlgorithmSelection
-            selectedAlgorithm={selectedAlgorithm}
-            setSelectedAlgorithm={handleAlgorithmChange}
-          />
-          <InputOutputDisplay input={input} output={output} handleInputChange={handleInputChange} />
-          <button onClick={() => saveInputResult(output)}>Save</button>
-        </div>
-        <div className="flex flex-col p-6 shadow-md rounded-lg max-w-md" style={{ minWidth: '300px' }}>
-          <HistoryDropdown
-            items={selectedAlgorithm ? filteredHistory : history}
-            onSelect={id => console.log('Select', id)}
-            onDelete={id => console.log('Delete', id)}
-          />
+        <div className="flex-col p-6 shadow-md rounded-lg max-w-md">
+          <AlgorithmSelection selectedAlgorithm={selectedAlgorithm} onAlgorithmChange={handleAlgorithmChange} />
         </div>
       </div>
-      <footer className="text-center w-full">
+      <InputOutputDisplay input={input} output={output} onInputChange={handleInputChange} />
+      <div>
         <DonationButton />
-        <p className="text-sm">&copy; 2024 Encryption App</p>
-      </footer>
+      </div>
+      <div className="flex flex-col p-6 shadow-md rounded-lg max-w-md" style={{ minWidth: '300px' }}>
+        <HistoryDropdown items={selectedAlgorithm ? filteredHistory : history} onSelect={(id) => console.log('Select', id)} onDelete={(id) => console.log('Delete', id)} />
+      </div> 
     </div>
   );
 };
 
 export default App;
-
