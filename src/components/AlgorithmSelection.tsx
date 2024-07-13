@@ -27,6 +27,7 @@ const AlgorithmSelection: React.FC<AlgorithmSelectionProps> = ({ selectedAlgorit
         className="shadow appearance-none border rounded w-full py-2 px-3 text-green-500 font-bold focus:outline-none focus:shadow-outline"
         style={{ fontFamily: 'monospace' }}
       >
+      	<option value="No Algorithm Chosen">No Algorithm Chosen</option>
         <option value="Vigenère Cipher">Vigenère Cipher</option>
         <option value="Caesar Cipher">Caesar Cipher</option>
         <option value="Enigma Cipher">Enigma Cipher</option>
@@ -34,7 +35,6 @@ const AlgorithmSelection: React.FC<AlgorithmSelectionProps> = ({ selectedAlgorit
         <option value="AES">AES</option>
         <option value="RSA">RSA</option>
         <option value="ECC">ECC</option>
-        <option value="Evervault PCI-DSS">Evervault PCI-DSS</option>
       </select>
     </div>
   );

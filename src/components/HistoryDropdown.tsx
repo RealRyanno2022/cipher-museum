@@ -23,7 +23,7 @@ const HistoryDropdown: React.FC<HistoryDropdownProps> = ({ title, history = [], 
   `;
 
   return (
-    <div className="my-4">
+    <div>
       <h2
         className="text-green-500 text-2xl font-bold mb-4"
         style={{ fontFamily: 'Orbitron, monospace' }}
