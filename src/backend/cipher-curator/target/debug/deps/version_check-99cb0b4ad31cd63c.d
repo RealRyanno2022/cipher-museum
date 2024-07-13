@@ -1,0 +1,10 @@
+/Users/daniel/Desktop/cipher-museum/cipher-museum/cipher-museum/src/backend/cipher-curator/target/debug/deps/libversion_check-99cb0b4ad31cd63c.rmeta: /Users/daniel/.cargo/registry/src/index.crates.io-6f17d22bba15001f/version_check-0.9.4/src/lib.rs /Users/daniel/.cargo/registry/src/index.crates.io-6f17d22bba15001f/version_check-0.9.4/src/version.rs /Users/daniel/.cargo/registry/src/index.crates.io-6f17d22bba15001f/version_check-0.9.4/src/channel.rs /Users/daniel/.cargo/registry/src/index.crates.io-6f17d22bba15001f/version_check-0.9.4/src/date.rs
+
+/Users/daniel/Desktop/cipher-museum/cipher-museum/cipher-museum/src/backend/cipher-curator/target/debug/deps/libversion_check-99cb0b4ad31cd63c.rlib: /Users/daniel/.cargo/registry/src/index.crates.io-6f17d22bba15001f/version_check-0.9.4/src/lib.rs /Users/daniel/.cargo/registry/src/index.crates.io-6f17d22bba15001f/version_check-0.9.4/src/version.rs /Users/daniel/.cargo/registry/src/index.crates.io-6f17d22bba15001f/version_check-0.9.4/src/channel.rs /Users/daniel/.cargo/registry/src/index.crates.io-6f17d22bba15001f/version_check-0.9.4/src/date.rs
+
+/Users/daniel/Desktop/cipher-museum/cipher-museum/cipher-museum/src/backend/cipher-curator/target/debug/deps/version_check-99cb0b4ad31cd63c.d: /Users/daniel/.cargo/registry/src/index.crates.io-6f17d22bba15001f/version_check-0.9.4/src/lib.rs /Users/daniel/.cargo/registry/src/index.crates.io-6f17d22bba15001f/version_check-0.9.4/src/version.rs /Users/daniel/.cargo/registry/src/index.crates.io-6f17d22bba15001f/version_check-0.9.4/src/channel.rs /Users/daniel/.cargo/registry/src/index.crates.io-6f17d22bba15001f/version_check-0.9.4/src/date.rs
+
+/Users/daniel/.cargo/registry/src/index.crates.io-6f17d22bba15001f/version_check-0.9.4/src/lib.rs:
+/Users/daniel/.cargo/registry/src/index.crates.io-6f17d22bba15001f/version_check-0.9.4/src/version.rs:
+/Users/daniel/.cargo/registry/src/index.crates.io-6f17d22bba15001f/version_check-0.9.4/src/channel.rs:
+/Users/daniel/.cargo/registry/src/index.crates.io-6f17d22bba15001f/version_check-0.9.4/src/date.rs:
