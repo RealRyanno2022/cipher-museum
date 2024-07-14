@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import InputDataDisplay from './components/InputDataDisplay';
-import OutputDisplay from './components/OutputDisplay';
-import HistoryDisplay from './components/HistoryDisplay';
+import React, { useEffect, useReducer, useCallback } from 'react';
+import useLodashState from './hooks/useLodashState';
+import InputOutputDisplay from './components/InputOutputDisplay';
+import HistoryDropdown from './components/HistoryDropdown';
 import AlgorithmSelection from './components/AlgorithmSelection';
 import axios from 'axios';
+import { debounce } from 'lodash';
 
 interface HistoryItem {
   input: string;
@@ -14,21 +15,21 @@ interface HistoryItem {
 const initialState = {
   algorithm: '',
   input: '',
+  output: '',
   history: [] as HistoryItem[],
+  zoomLevel: 1,
 };
 
 const App: React.FC = () => {
-  const [state, setState] = useState(initialState);
-  const [zoomLevel, setZoomLevel] = useState(1); // Initial zoom level set to 1
+  const lodashState = new useLodashState(initialState);
+  const [, forceUpdate] = useReducer((x) => x + 1, 0); // Force update to re-render
 
   useEffect(() => {
     const handleResize = () => {
-      const zoomLevel = window.innerWidth / window.outerWidth;
-      setZoomLevel(zoomLevel);
+      lodashState.setState('zoomLevel', window.innerWidth / window.outerWidth);
+      forceUpdate();
     };
-
     window.addEventListener('resize', handleResize);
-
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -41,26 +42,35 @@ const App: React.FC = () => {
   const fetchAlgorithmData = async () => {
     try {
       const response = await axios.get('/api/getAlgorithmData');
-      setState(prevState => ({ ...prevState, algorithm: response.data.algorithm }));
+      lodashState.setState('algorithm', response.data.algorithm);
+      forceUpdate();
     } catch (error) {
       console.error('Error fetching algorithm data:', error);
       alert('An error occurred while fetching the algorithm data.');
     }
   };
 
+  const debouncedInputChange = useCallback(
+    debounce((value: string) => {
+      lodashState.setState('input', value);
+      forceUpdate();
+    }, 300),
+    [] // Only create the debounced function once
+  );
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState(prevState => ({ ...prevState, input: event.target.value }));
+    debouncedInputChange(event.target.value);
   };
 
   const handleProcessInput = async () => {
-    const { algorithm, input } = state;
+    const { algorithm, input } = lodashState.getState();
     try {
       const response = await axios.post('/api/process', { algorithm, input });
       const historyItem: HistoryItem = response.data;
-      setState(prevState => ({
-        ...prevState,
-        history: [...prevState.history, historyItem],
-      }));
+      lodashState.setState('input', '');
+      lodashState.setState('output', historyItem.output);
+      lodashState.setState('history', [...lodashState.getState().history, historyItem]);
+      forceUpdate();
     } catch (error) {
       console.error('Error processing data:', error);
       alert('An error occurred while processing the input.');
@@ -70,7 +80,8 @@ const App: React.FC = () => {
   const updateAlgorithmSelection = async (algorithm: string) => {
     try {
       const response = await axios.post('/api/selectAlgorithm', { algorithm });
-      setState(prevState => ({ ...prevState, algorithm: response.data.algorithm }));
+      lodashState.setState('algorithm', response.data.algorithm);
+      forceUpdate();
     } catch (error) {
       console.error('Error selecting algorithm:', error);
       alert('An error occurred while selecting the algorithm.');
@@ -78,17 +89,12 @@ const App: React.FC = () => {
   };
 
   return (
-    <div
-      className="container mx-auto flex flex-col items-center min-h-screen fixed top-0 left-0 right-0 bottom-0"
-      style={{ transform: `scale(${zoomLevel})`, transformOrigin: 'center' }}
-    >
-      <div className="text-center">
-        <h1 className="text-4xl font-bold">Cipher Museum Hub</h1>
-        <InputDataDisplay input={state.input} onInputChange={handleInputChange} />
-        <button onClick={handleProcessInput}>Process Input</button>
-        <OutputDisplay output={state.history.map(item => item.output).join(', ')} />
-        <HistoryDisplay history={state.history} />
-        <AlgorithmSelection selectedAlgorithm={state.algorithm} onSelectAlgorithm={updateAlgorithmSelection} />
+    <div className="container mx-auto flex flex-col items-center min-h-screen fixed top-0 left-0 right-0 bottom-0" style={{ transform: `scale(${lodashState.getState().zoomLevel})`, transformOrigin: 'center' }}>
+      <div className="text-center w-full px-8">
+        <h1 className="text-4xl font-bold">Cipher Museum</h1>
+        <InputOutputDisplay input={lodashState.getState().input} output={lodashState.getState().output} onInputChange={handleInputChange} />
+	<AlgorithmSelection selectedAlgorithm={lodashState.getState().algorithm} onSelectAlgorithm={updateAlgorithmSelection} />
+        <HistoryDropdown title="History" history={lodashState.getState().history} onDelete={() => {}} onSelect={() => {}} />
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import { cloneDeep, set } from 'lodash';
 
-class StateManager<T extends object> {
+class useLodashState<T extends object> {
   private state: T;
   private listeners: ((state: T) => void)[] = [];
 
@@ -32,5 +32,5 @@ class StateManager<T extends object> {
   }
 }
 
-export default StateManager;
+export default useLodashState;
 
