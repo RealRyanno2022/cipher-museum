@@ -1,85 +1,72 @@
-import React, { useEffect, useRef } from 'react';
-import useLodashState from '../hooks/useLodashState';
+import React, { useEffect, useState } from 'react';
+import '../hooks/useLodashState';
 
 interface InputOutputDisplayProps {
   input: string;
   output: string;
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  className?: string;
+  onOutputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const initialState = {
   input: '',
-  output: ''
+  output: '',
+  previousLength: 0
 };
 
-const InputOutputDisplay: React.FC<InputOutputDisplayProps> = ({ input, output, onInputChange, className }) => {
-  const lodashStateRef = useRef(new useLodashState(initialState));
-  const lodashState = lodashStateRef.current;
-
-  const scramblerRef = useRef<number | null>(null);
-  const animationFrameRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    lodashState.setState('output', output);
-  }, [output]);
+const InputOutputDisplay: React.FC<InputOutputDisplayProps> = ({
+  input,
+  output,
+  onInputChange,
+  onOutputChange,
+}) => {
+  const [backspaceCount, setBackspaceCount] = useState(0);
 
   useEffect(() => {
-    return () => {
-      if (scramblerRef.current) clearTimeout(scramblerRef.current);
-      if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
-    };
-  }, []);
-
-  const startScrambling = () => {
-    const dummyChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+[]{}|;:",.<>?/';
-    const prevOutput = lodashState.getState().output;
-    let prev = prevOutput || '';
-    const length = prev.length;
-    let i = 0;
-
-    const scramble = () => {
-      if (i < length) {
-        const randomChar = dummyChars[Math.floor(Math.random() * dummyChars.length)];
-        const next = prev.slice(0, i) + randomChar + prev.slice(i + 1);
-        lodashState.setState('output', next);
-        i++;
-        animationFrameRef.current = requestAnimationFrame(scramble);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Backspace') {
+        setBackspaceCount((prevCount) => prevCount + 1);
       } else {
-        lodashState.setState('output', output);
+        setBackspaceCount(0); // Reset the count if any other key is pressed
       }
     };
 
-    scramble();
-  };
+    document.addEventListener('keydown', handleKeyDown);
 
-  const stopScrambling = () => {
-    if (scramblerRef.current) clearTimeout(scramblerRef.current);
-    if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
-    lodashState.setState('output', output);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value;
+    if (event.nativeEvent.inputType === 'deleteContentBackward') {
+      setBackspaceCount(backspaceCount + 1);
+    }
+    onInputChange({ ...event, target: { ...event.target, value: newValue } });
   };
 
   return (
-    <div className={`my-4 bg-black ${className}`}>
+    <div className="flex flex-col space-y-4">
       <div>
-        <label className="block text-green-500 text-sm font-bold mb-2">Input</label>
+        <label htmlFor="input" className="block text-green-500 text-sm font-bold mb-2">Input</label>
         <input
-          id="input"
           type="text"
+          id="input"
           value={input}
-          onChange={onInputChange}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-green-500 font-bold leading-tight focus:shadow-outline focus:outline-none"
-          style={{ fontFamily: 'Orbitron, monospace' }}
+          onChange={handleInputChange}
+          className="appearance-none border rounded w-full py-2 px-3 text-green-500 font-bold leading-tight focus:shadow-outline focus:outline-none"
+          style={{ fontFamily: 'monospace' }}
         />
       </div>
       <div>
-        <label className="block text-green-500 text-sm font-bold mb-2 mt-4">Output</label>
+        <label htmlFor="output" className="block text-green-500 text-sm font-bold mb-2">Output</label>
         <input
-          id="output"
           type="text"
-          value={lodashState.getState().output}
-          readOnly
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-green-500 font-bold leading-tight focus:shadow-outline focus:outline-none"
+          id="output"
+          value={output}
+          onChange={onOutputChange}
+          className="appearance-none border rounded w-full py-2 px-3 text-green-500 font-bold leading-tight focus:shadow-outline focus:outline-none"
           style={{ fontFamily: 'monospace' }}
         />
       </div>
@@ -88,4 +75,5 @@ const InputOutputDisplay: React.FC<InputOutputDisplayProps> = ({ input, output, 
 };
 
 export default InputOutputDisplay;
+
 

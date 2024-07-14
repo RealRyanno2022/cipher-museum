@@ -1,36 +1,28 @@
+import { useState, useEffect, useCallback } from 'react';
 import { cloneDeep, set } from 'lodash';
 
-class useLodashState<T> {
-  private state: T;
-  private listeners: ((state: T) => void)[] = [];
+const useLodashState = <T>(initialState: T) => {
+  const [state, setState] = useState<T>(cloneDeep(initialState));
+  const [listeners, setListeners] = useState<((state: T) => void)[]>([]);
 
-  constructor(initialState: T) {
-    this.state = cloneDeep(initialState);
-  }
+  const getState = useCallback(() => state, [state]);
 
-  getState() {
-    return this.state;
-  }
-
-  setState(path: string, value: any) {
-    const newState = cloneDeep(this.state);
+  const updateState = useCallback((path: string, value: any) => {
+    const newState = cloneDeep(state);
     set(newState, path, value);
-    this.state = newState;
-    this.notify();
-  }
+    setState(newState);
+    listeners.forEach((listener) => listener(newState));
+  }, [state, listeners]);
 
-  subscribe(listener: (state: T) => void) {
-    this.listeners.push(listener);
-  }
+  const subscribe = useCallback((listener: (state: T) => void) => {
+    setListeners((prevListeners) => [...prevListeners, listener]);
+    return () => {
+      setListeners((prevListeners) => prevListeners.filter((l) => l !== listener));
+    };
+  }, []);
 
-  unsubscribe(listener: (state: T) => void) {
-    this.listeners = this.listeners.filter(l => l !== listener);
-  }
-
-  private notify() {
-    this.listeners.forEach(listener => listener(this.state));
-  }
-}
+  return { getState, setState: updateState, subscribe };
+};
 
 export default useLodashState;
 
