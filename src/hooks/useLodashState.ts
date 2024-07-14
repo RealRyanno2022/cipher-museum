@@ -1,6 +1,6 @@
 import { cloneDeep, set } from 'lodash';
 
-class useLodashState<T extends object> {
+class useLodashState<T> {
   private state: T;
   private listeners: ((state: T) => void)[] = [];
 

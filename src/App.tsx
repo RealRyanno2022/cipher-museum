@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useCallback } from 'react';
+import React, { useEffect, useReducer, useCallback, useRef } from 'react';
 import useLodashState from './hooks/useLodashState';
 import InputOutputDisplay from './components/InputOutputDisplay';
 import HistoryDropdown from './components/HistoryDropdown';
@@ -21,7 +21,8 @@ const initialState = {
 };
 
 const App: React.FC = () => {
-  const lodashState = new useLodashState(initialState);
+  const lodashStateRef = useRef(new useLodashState(initialState));
+  const lodashState = lodashStateRef.current;
   const [, forceUpdate] = useReducer((x) => x + 1, 0); // Force update to re-render
 
   useEffect(() => {
@@ -33,11 +34,11 @@ const App: React.FC = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [lodashState]);
 
   useEffect(() => {
     fetchAlgorithmData();
-  }, []);
+  }, [lodashState]);
 
   const fetchAlgorithmData = async () => {
     try {
@@ -54,12 +55,13 @@ const App: React.FC = () => {
     debounce((value: string) => {
       lodashState.setState('input', value);
       forceUpdate();
-    }, 300),
-    [] // Only create the debounced function once
+    }, 50),
+    [lodashState]
   );
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    debouncedInputChange(event.target.value);
+    const value = event.target.value;
+    debouncedInputChange(value);
   };
 
   const handleProcessInput = async () => {
@@ -91,10 +93,11 @@ const App: React.FC = () => {
   return (
     <div className="container mx-auto flex flex-col items-center min-h-screen fixed top-0 left-0 right-0 bottom-0" style={{ transform: `scale(${lodashState.getState().zoomLevel})`, transformOrigin: 'center' }}>
       <div className="text-center w-full px-8">
-        <h1 className="text-4xl font-bold">Cipher Museum</h1>
+        <h1 className="text-4xl font-bold">Cipher Museum Hub</h1>
         <InputOutputDisplay input={lodashState.getState().input} output={lodashState.getState().output} onInputChange={handleInputChange} />
-	<AlgorithmSelection selectedAlgorithm={lodashState.getState().algorithm} onSelectAlgorithm={updateAlgorithmSelection} />
+        <button onClick={handleProcessInput}>Process Input</button>
         <HistoryDropdown title="History" history={lodashState.getState().history} onDelete={() => {}} onSelect={() => {}} />
+        <AlgorithmSelection selectedAlgorithm={lodashState.getState().algorithm} onSelectAlgorithm={updateAlgorithmSelection} />
       </div>
     </div>
   );
