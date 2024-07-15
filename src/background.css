@@ -20,7 +20,7 @@ body, html {
   left: 0;
   width: 200%; /* This allows the background to pan smoothly */
   height: 100%;
-  background-image: url('assets/Untitled design.svg'); /* Ensure the path to the SVG is correct */
+  background-image: url('assets/star-bg.svg'); /* Ensure the path to the SVG is correct */
   background-size: 10%;
   background-repeat: repeat;
   animation: pan 20s linear infinite;
