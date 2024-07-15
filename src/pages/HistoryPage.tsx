@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const HistoryPage: React.FC = () => {
   return (
@@ -10,7 +11,7 @@ const HistoryPage: React.FC = () => {
             Encryption is a method of securing data by converting it into a format that can only be read by someone who has the appropriate decryption key. This technique has been used for thousands of years, from the simple substitution ciphers used in ancient times to the complex algorithms that secure our data today.
           </p>
           <p className="mb-4">
-            <strong>Ancient Times:</strong> The earliest known use of encryption was in ancient Egypt, where hieroglyphs were used to encode messages. The Greeks and Romans also used simple substitution ciphers. For example, Julius Caesar used a shift cipher, which is now known as the Caesar cipher.
+            <strong>Ancient Times:</strong> The Greeks and Romans also used simple substitution ciphers. For example, Julius Caesar used a shift cipher, which is now known as the Caesar cipher.
           </p>
           <p className="mb-4">
             <strong>Middle Ages:</strong> During the Middle Ages, encryption techniques became more sophisticated. The Arab mathematician Al-Kindi developed frequency analysis, a technique used to break substitution ciphers. The Vigenère cipher, which uses a keyword to shift letters, was invented in the 16th century and was considered unbreakable for several hundred years.
@@ -24,6 +25,11 @@ const HistoryPage: React.FC = () => {
           <p>
             The history of encryption is a fascinating journey through time, highlighting the constant battle between those seeking to protect information and those attempting to uncover it.
           </p>
+          <div className="mt-4">
+            <Link to="/" className="bg-green-500 text-white py-2 px-4 rounded text-sm font-bold hover:bg-green-700">
+              Back to Main Page
+            </Link>
+          </div>
         </div>
       </div>
     </div>
