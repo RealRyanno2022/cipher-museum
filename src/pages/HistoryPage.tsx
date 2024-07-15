@@ -5,7 +5,7 @@ const HistoryPage: React.FC = () => {
     <div className="flex flex-col items-center justify-center h-screen">
       <div className="overflow-y-auto h-full w-full p-4" style={{ maxWidth: '800px' }}>
         <h1 className="text-green-500 text-2xl font-bold mb-4">History of Encryption</h1>
-        <div className="bg-white shadow-md rounded-lg p-4">
+        <div className="bg-black shadow-md rounded-lg p-4">
           <p className="mb-4">
             Encryption is a method of securing data by converting it into a format that can only be read by someone who has the appropriate decryption key. This technique has been used for thousands of years, from the simple substitution ciphers used in ancient times to the complex algorithms that secure our data today.
           </p>
